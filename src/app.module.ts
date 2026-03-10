@@ -3,15 +3,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { CampaignModule } from './modules/campaign/campaign.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'env',
+      envFilePath: '.env',
 
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI as string)
+    MongooseModule.forRoot(process.env.MONGO_URI as string),
+    CampaignModule
   ],
   controllers: [AppController],
   providers: [AppService],
