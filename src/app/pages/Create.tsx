@@ -1,4 +1,3 @@
-import React from 'react'
 import { useCreate } from '../hooks/useApi'
 import { useForm } from 'react-hook-form';
 import { campaignSchema, type CampaignForm } from '../model/models';

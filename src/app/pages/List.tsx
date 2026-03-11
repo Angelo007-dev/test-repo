@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import type { TCampaignStatus } from '../constants/constants';
 import type { QueryParamsOptions } from '../service/campaignApi';
 import { useList } from '../hooks/useApi';
-import type { ICampaign } from '../model/models';
 
 export default function List() {
     const [page, setPage] = useState(1);
@@ -52,6 +51,15 @@ export default function List() {
                     <option value="active">Active</option>
                     <option value="paused">Paused</option>
                     <option value="ended">Ended</option>
+                </select>
+                <select
+                    value={limit}
+                    onChange={(e) => setLimit(Number(e.target.value))}
+                    className="border p-2 rounded"
+                >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
                 </select>
             </div>
             <table className='min-w-full border border-gray-200'>

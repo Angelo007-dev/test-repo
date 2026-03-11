@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
 import List from '../pages/List';
-import { LINKS } from '../constants';
+import { LINKS } from '../constants/menu';
 import Create from '../pages/Create';
 import Dashboard from '../pages/Dashboard';
 export default function AppRouter() {
