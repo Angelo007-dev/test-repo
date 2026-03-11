@@ -69,11 +69,19 @@ export const campaignSchema = z.object({
     name: z.string().min(3, "Le nom est obligatoire"),
     advertiser: z.string().min(2, "Advertiser requis"),
     budget: z.number().positive("Budget invalide"),
-    impressionServed: z.number().int().nonnegative(),
+    impressionServed: z.number().int().nonnegative("Impression invalide"),
     targetCountries: z.string().min(2, "Pays requis"),
-    startDate: z.string(),
-    endDate: z.string(),
+    startDate: z.string().min(1, "La date de début est requise"),
+    endDate: z.string().min(1, "La date de fin est requise"),
     status: z.enum(["active", "paused", "ended"])
+}).refine((data) => {
+
+    const start = new Date(data.startDate);
+    const end = new Date(data.endDate);
+    return start <= end;
+}, {
+    message: "La date de début doit être inférieure à la date de fin",
+    path: ["startDate"],
 });
 
 export type CampaignForm = z.infer<typeof campaignSchema>;

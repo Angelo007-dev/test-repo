@@ -2,16 +2,26 @@ import { useCreate } from '../hooks/useApi'
 import { useForm } from 'react-hook-form';
 import { campaignSchema, type CampaignForm } from '../model/models';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
+import { LINKS } from '../constants/menu';
+import CustomInput from '../components/input/CustomInput';
 
 export default function Create() {
     const { mutate } = useCreate();
+    const navigate = useNavigate();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors }
-    } = useForm<CampaignForm>({
-        resolver: zodResolver(campaignSchema)
+    const { register, handleSubmit, formState: { errors } } = useForm<CampaignForm>({
+        resolver: zodResolver(campaignSchema),
+        defaultValues: {
+            name: "",
+            advertiser: "",
+            budget: 0,
+            impressionServed: 0,
+            targetCountries: "",
+            startDate: "",
+            endDate: "",
+            status: "active",
+        },
     });
     const onSubmit = (data: CampaignForm) => {
         mutate({
@@ -19,7 +29,13 @@ export default function Create() {
             targetCountries: data.targetCountries.split(","),
             startDate: new Date(data.startDate),
             endDate: new Date(data.endDate),
-        });
+        },
+            {
+                onSuccess: () => {
+                    navigate(LINKS.LIST);
+                }
+            }
+        );
     }
 
     return (
@@ -29,61 +45,64 @@ export default function Create() {
             <h1 className="text-2xl font-bold mb-6">Créer une campagne</h1>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
-                <input
+                <CustomInput
+                    label='Nom'
+                    placeholder="ex: Black Friday"
                     {...register("name")}
-                    placeholder="Nom"
-                    className="w-full border p-2 rounded"
+                    className={errors.name ? "border-red-500" : ""}
                 />
-                <p className="text-red-500">{errors.name?.message}</p>
+                {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
 
-                <input
+                <CustomInput
+                    label='Annonceur'
+                    placeholder="ex: Marque X, Addidas"
                     {...register("advertiser")}
-                    placeholder="Advertiser"
-                    className="w-full border p-2 rounded"
+                    className={errors.advertiser ? "border-red-500" : ""}
                 />
-                <p className="text-red-500">{errors.advertiser?.message}</p>
+                {errors.advertiser && <p className="text-red-500 text-sm">{errors.advertiser.message}</p>}
 
-                <input
+                <CustomInput
+                    label='Budget'
                     type="number"
                     {...register("budget", { valueAsNumber: true })}
                     placeholder="Budget"
-                    className="w-full border p-2 rounded"
+                    className={errors.budget ? "border-red-500" : ""}
                 />
+                {errors.budget && <p className="text-red-500 text-sm">{errors.budget.message}</p>}
 
-                <input
+                <CustomInput
+                    label='Impression'
                     type="number"
                     {...register("impressionServed", { valueAsNumber: true })}
                     placeholder="Impressions"
-                    className="w-full border p-2 rounded"
+                    className={errors.impressionServed ? "border-red-500" : ""}
                 />
+                {errors.impressionServed && <p className="text-red-500 text-sm">{errors.impressionServed.message}</p>}
 
-                <input
+                <CustomInput
+                    label='Pays'
                     {...register("targetCountries")}
                     placeholder="Pays (France,Belgique)"
-                    className="w-full border p-2 rounded"
+                    className={errors.targetCountries ? "border-red-500" : ""}
                 />
+                {errors.targetCountries && <p className="text-red-500 text-sm">{errors.targetCountries.message}</p>}
 
-                <input
+                <CustomInput
+                    label='Date de début'
                     type="date"
                     {...register("startDate")}
-                    className="w-full border p-2 rounded"
+                    className={errors.startDate ? "border-red-500" : ""}
                 />
+                {errors.startDate && <p className="text-red-500 text-sm">{errors.startDate.message}</p>}
 
-                <input
+
+                <CustomInput
+                    label='Date de fin'
                     type="date"
                     {...register("endDate")}
-                    className="w-full border p-2 rounded"
+                    className={errors.endDate ? "border-red-500" : ""}
                 />
-
-                <select
-                    {...register("status")}
-                    className="w-full border p-2 rounded"
-                >
-                    <option value="active">Active</option>
-                    <option value="paused">Paused</option>
-                    <option value="ended">Ended</option>
-                </select>
+                {errors.endDate && <p className="text-red-500 text-sm">{errors.endDate.message}</p>}
 
                 <button
                     type="submit"

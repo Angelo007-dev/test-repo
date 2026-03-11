@@ -24,7 +24,7 @@ export default function Dashboard() {
 
                 {/* Total campagnes */}
                 <div className="bg-white shadow rounded-xl p-6">
-                    <p className="text-gray-500">Total Campaigns</p>
+                    <p className="text-gray-500">Total </p>
                     <h2 className="text-3xl font-bold">
                         {dashboard?.totalCampaigns}
                     </h2>
@@ -32,7 +32,7 @@ export default function Dashboard() {
 
                 {/* Campagnes actives */}
                 <div className="bg-white shadow rounded-xl p-6">
-                    <p className="text-gray-500">Active Campaigns</p>
+                    <p className="text-gray-500">Actif </p>
                     <h2 className="text-3xl font-bold text-green-600">
                         {dashboard?.activeCampaigns}
                     </h2>
@@ -46,7 +46,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className="bg-white shadow rounded-xl p-6">
-                    <p className="text-gray-500">Top Advertiser</p>
+                    <p className="text-gray-500">Top Annonce</p>
                     <h2 className="text-2xl font-bold text-purple-600">
                         {dashboard?.topAdvertiser}
                     </h2>
