@@ -28,7 +28,7 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
     transform: true,
   }));
-  const port = Number(process.env.PORT);
+  const port = Number(process.env.PORT || 3002);
   const host = String(process.env.HOST);
   await app.listen(port, host);
 

@@ -19,3 +19,6 @@ export function IsAfterDate(prop: string, validationOptions?: ValidationOptions)
         })
     }
 }
+export function removeAccents(str: string) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}

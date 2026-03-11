@@ -37,11 +37,13 @@ export class CampaignService {
         const [data, total] = await Promise.all([
             this.campaignModel
                 .find(filter)
+                .collation({ locale: 'fr', strength: 1 })
                 .skip(skip)
                 .limit(limit)
                 .exec(),
             this.campaignModel
                 .countDocuments(filter)
+                .collation({ locale: 'fr', strength: 1 })
                 .exec(),
         ]);
         return {
