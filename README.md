@@ -91,7 +91,7 @@ Choisi pour :
 - expérience développeur
 - performance du build
 
-## Docker
+# Docker
 Docker permet :
 - reproductibilité de l'environnement
 - déploiement simplifié
@@ -99,7 +99,7 @@ Docker permet :
 
 ---
 
-# Conteneurisation
+# Conteneneurisation
 
 L'application utilise Docker avec 3 services :
 
@@ -111,3 +111,24 @@ Commandes principales :
 
 ```bash
 docker compose up --build
+
+# instructions pour démarrer le projet
+
+git clone https://github.com/Angelo007-dev/test-repo.git
+cd test-repo
+
+
+#configurer .env
+
+#Frontend
+cd frontend
+cp .env.example .env
+# Modifier VITE_API_URL si nécessaire
+
+#Backend
+cd backend
+cp .env.example .env
+# Modifier MONGO_URI si nécessaire
+
+#Lancer le Projet avec Docker à la racine 
+docker-compose up --build

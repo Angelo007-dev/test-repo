@@ -78,10 +78,10 @@ export const campaignSchema = z.object({
 
     const start = new Date(data.startDate);
     const end = new Date(data.endDate);
-    return start <= end;
+    return start < end;
 }, {
-    message: "La date de début doit être inférieure à la date de fin",
-    path: ["startDate"],
+    message: "La date de fin doit être supérieur à la date de début",
+    path: ["endDate"],
 });
 
 export type CampaignForm = z.infer<typeof campaignSchema>;

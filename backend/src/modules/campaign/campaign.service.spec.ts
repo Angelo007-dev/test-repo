@@ -1,18 +1,62 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { CampaignController } from './campaign.controller';
 import { CampaignService } from './campaign.service';
+import { CreateCampaignDto } from 'src/dto/CreateCampaignDto';
+import { ECampaignStatus } from 'src/constant/constant';
 
-describe('CampaignService', () => {
-  let service: CampaignService;
+// Mock du service
+const mockCampaignService = {
+  createCampaign: jest.fn(),
+  campaignList: jest.fn(),
+  servedAd: jest.fn(),
+  getStats: jest.fn(),
+};
+
+describe('CampaignController', () => {
+  let controller: CampaignController;
+  let service: typeof mockCampaignService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [CampaignService],
+      controllers: [CampaignController],
+      providers: [
+        {
+          provide: CampaignService,
+          useValue: mockCampaignService, // injection du mock
+        },
+      ],
     }).compile();
 
-    service = module.get<CampaignService>(CampaignService);
+    controller = module.get<CampaignController>(CampaignController);
+    service = module.get<CampaignService>(CampaignService) as any;
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(controller).toBeDefined();
+  });
+
+  it('should create a campaign', async () => {
+    const dto: CreateCampaignDto = {
+      name: 'Test',
+      advertiser: 'Acme',
+      budget: 100,
+      impressionServed: 0,
+      targetCountries: ['FR'],
+      startDate: new Date('2026-03-10'),
+      endDate: new Date('2026-03-15'),
+      status: ECampaignStatus.ACTIVE,
+    };
+
+    // Mock de la réponse
+    mockCampaignService.createCampaign.mockResolvedValue({
+      id: '1',
+      ...dto,
+    });
+
+    // Appel de la bonne méthode du controller
+    const result = await controller.campaignCreate(dto);
+
+    expect(result).toHaveProperty('id');
+    expect(mockCampaignService.createCampaign).toHaveBeenCalledWith(dto);
   });
 });
