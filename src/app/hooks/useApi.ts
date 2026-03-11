@@ -2,12 +2,16 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import type { ICreateInput, ICampaign, IDataRes } from "../model/models"
 import { api, EEndpoint, type QueryParamsOptions } from "../service/campaignApi"
 import { notify } from "../utils/notify"
+import { queryClient } from "../queryClient"
 
-export const useApi = () => {
+export const useCreate = () => {
     return useMutation<IDataRes<ICampaign>, Error, ICreateInput>({
         mutationKey: [EEndpoint.CREATE],
         mutationFn: (payload) => api.createCampaign(payload),
-        onSuccess: () => notify.success('Campagne créer avec succèes'),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [EEndpoint.LIST] });
+            notify.success('Campagne créer avec succèes');
+        },
         onError: (e) => notify.error(e.message)
     });
 }

@@ -1,5 +1,5 @@
 import type { TCampaignStatus } from "../constants/constants";
-import type { ICampaign, ICreateInput, IDashboard, IDataRes, IDataResponse } from "../model/models";
+import type { ICampaign, ICampaignRes, ICreateInput, IDashboard, IDataRes, IDataResponse } from "../model/models";
 import apiClient from "./campaoignService"
 export const EEndpoint = {
     CREATE: "create-campaign",
@@ -26,7 +26,7 @@ export const api = {
     },
     campaignList: async (query: QueryParamsOptions) => {
         try {
-            const { data } = await apiClient.get<IDataResponse<ICampaign[]>>(
+            const { data } = await apiClient.get<IDataResponse<ICampaignRes[]>>(
                 EEndpoint.LIST,
                 { params: query }
             );
