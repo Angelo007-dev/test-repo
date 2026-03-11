@@ -4,7 +4,6 @@ import { CampaignService } from './campaign.service';
 import { CreateCampaignDto } from 'src/dto/CreateCampaignDto';
 import { ECampaignStatus } from 'src/constant/constant';
 
-// Mock du service
 const mockCampaignService = {
   createCampaign: jest.fn(),
   campaignList: jest.fn(),
@@ -22,7 +21,7 @@ describe('CampaignController', () => {
       providers: [
         {
           provide: CampaignService,
-          useValue: mockCampaignService, // injection du mock
+          useValue: mockCampaignService,
         },
       ],
     }).compile();
@@ -47,13 +46,11 @@ describe('CampaignController', () => {
       status: ECampaignStatus.ACTIVE,
     };
 
-    // Mock de la réponse
     mockCampaignService.createCampaign.mockResolvedValue({
       id: '1',
       ...dto,
     });
 
-    // Appel de la bonne méthode du controller
     const result = await controller.campaignCreate(dto);
 
     expect(result).toHaveProperty('id');
